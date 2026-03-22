@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "DreamFlowNode.h"
+#include "DreamFlowVariableTypes.h"
 #include "DreamFlowDialogueNodes.generated.h"
 
 UCLASS(Abstract, BlueprintType, Blueprintable, EditInlineNew, DefaultToInstanced)
@@ -23,14 +24,24 @@ class DREAMFLOWEXPANSION_API UDreamFlowDialogueLineNode : public UDreamFlowDialo
 
 public:
     UDreamFlowDialogueLineNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (DreamFlowExpectedValueType = "Text", DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding SpeakerNameBinding;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (DreamFlowExpectedValueType = "Text", MultiLine = true, DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    FDreamFlowValueBinding LineTextBinding;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (DreamFlowExpectedValueType = "Name", DreamFlowInlineEditable, DreamFlowInlinePriority = "40"))
+    FDreamFlowValueBinding VoiceTagBinding;
+
+    UPROPERTY()
     FText SpeakerName;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (MultiLine = true, DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    UPROPERTY()
     FText LineText;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "40"))
+    UPROPERTY()
     FName VoiceTag;
 
     virtual FText GetNodeDisplayName_Implementation() const override;
@@ -45,12 +56,16 @@ class DREAMFLOWEXPANSION_API UDreamFlowDialogueChoiceNode : public UDreamFlowDia
 
 public:
     UDreamFlowDialogueChoiceNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (MultiLine = true, DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
-    FText Prompt;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (DreamFlowExpectedValueType = "Text", MultiLine = true, DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding PromptBinding;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
     TArray<FText> ChoiceLabels;
+
+    UPROPERTY()
+    FText Prompt;
 
     virtual FText GetNodeDisplayName_Implementation() const override;
     virtual FLinearColor GetNodeTint_Implementation() const override;
@@ -64,8 +79,12 @@ class DREAMFLOWEXPANSION_API UDreamFlowDialogueEndNode : public UDreamFlowDialog
 
 public:
     UDreamFlowDialogueEndNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (DreamFlowExpectedValueType = "Text", DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding EndLabelBinding;
+
+    UPROPERTY()
     FText EndLabel;
 
     virtual FText GetNodeDisplayName_Implementation() const override;

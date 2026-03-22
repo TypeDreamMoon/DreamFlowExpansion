@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "DreamFlowNode.h"
+#include "DreamFlowVariableTypes.h"
 #include "DreamFlowEncounterNodes.generated.h"
 
 UCLASS(Abstract, BlueprintType, Blueprintable, EditInlineNew, DefaultToInstanced)
@@ -11,8 +12,12 @@ class DREAMFLOWEXPANSION_API UDreamFlowEncounterNode : public UDreamFlowNode
 
 public:
     UDreamFlowEncounterNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowExpectedValueType = "Name", DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding EncounterIdBinding;
+
+    UPROPERTY()
     FName EncounterId;
 
     virtual FText GetNodeCategory_Implementation() const override;
@@ -26,11 +31,18 @@ class DREAMFLOWEXPANSION_API UDreamFlowEncounterSetupNode : public UDreamFlowEnc
 
 public:
     UDreamFlowEncounterSetupNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowExpectedValueType = "Text", DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding SetupLabelBinding;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowExpectedValueType = "Text", MultiLine = true, DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    FDreamFlowValueBinding ObjectiveBriefBinding;
+
+    UPROPERTY()
     FText SetupLabel;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (MultiLine = true, DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    UPROPERTY()
     FText ObjectiveBrief;
 
     virtual FText GetNodeDisplayName_Implementation() const override;
@@ -45,14 +57,24 @@ class DREAMFLOWEXPANSION_API UDreamFlowEncounterWaveNode : public UDreamFlowEnco
 
 public:
     UDreamFlowEncounterWaveNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowExpectedValueType = "Text", DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding WaveLabelBinding;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowExpectedValueType = "Int", DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    FDreamFlowValueBinding ExpectedEnemyCountBinding;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowExpectedValueType = "Name", DreamFlowInlineEditable, DreamFlowInlinePriority = "40"))
+    FDreamFlowValueBinding DifficultyTagBinding;
+
+    UPROPERTY()
     FText WaveLabel;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "30", ClampMin = "1"))
+    UPROPERTY()
     int32 ExpectedEnemyCount = 3;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "40"))
+    UPROPERTY()
     FName DifficultyTag;
 
     virtual FText GetNodeDisplayName_Implementation() const override;
@@ -67,14 +89,24 @@ class DREAMFLOWEXPANSION_API UDreamFlowEncounterResolveNode : public UDreamFlowE
 
 public:
     UDreamFlowEncounterResolveNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowExpectedValueType = "Text", DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding ResolutionLabelBinding;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowExpectedValueType = "Text", MultiLine = true, DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    FDreamFlowValueBinding RewardSummaryBinding;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowExpectedValueType = "Bool", DreamFlowInlineEditable, DreamFlowInlinePriority = "40"))
+    FDreamFlowValueBinding VictoryBinding;
+
+    UPROPERTY()
     FText ResolutionLabel;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (MultiLine = true, DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    UPROPERTY()
     FText RewardSummary;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Encounter", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "40"))
+    UPROPERTY()
     bool bVictory = true;
 
     virtual FText GetNodeDisplayName_Implementation() const override;

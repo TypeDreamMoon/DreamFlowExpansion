@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "DreamFlowNode.h"
+#include "DreamFlowVariableTypes.h"
 #include "DreamFlowQuestNodes.generated.h"
 
 UCLASS(Abstract, BlueprintType, Blueprintable, EditInlineNew, DefaultToInstanced)
@@ -11,8 +12,12 @@ class DREAMFLOWEXPANSION_API UDreamFlowQuestNode : public UDreamFlowNode
 
 public:
     UDreamFlowQuestNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowExpectedValueType = "Name", DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding QuestIdBinding;
+
+    UPROPERTY()
     FName QuestId;
 
     virtual FText GetNodeCategory_Implementation() const override;
@@ -26,15 +31,22 @@ class DREAMFLOWEXPANSION_API UDreamFlowQuestTaskNode : public UDreamFlowQuestNod
 
 public:
     UDreamFlowQuestTaskNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
-    FText TaskLabel;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowExpectedValueType = "Text", DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding TaskLabelBinding;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
-    bool bOptional = false;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowExpectedValueType = "Bool", DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    FDreamFlowValueBinding OptionalBinding;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "40"))
     TArray<FText> Objectives;
+
+    UPROPERTY()
+    FText TaskLabel;
+
+    UPROPERTY()
+    bool bOptional = false;
 
     virtual FText GetNodeDisplayName_Implementation() const override;
     virtual FLinearColor GetNodeTint_Implementation() const override;
@@ -48,14 +60,24 @@ class DREAMFLOWEXPANSION_API UDreamFlowQuestConditionNode : public UDreamFlowQue
 
 public:
     UDreamFlowQuestConditionNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowExpectedValueType = "Text", DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding ConditionLabelBinding;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowExpectedValueType = "Bool", DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    FDreamFlowValueBinding ExpectedResultBinding;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowExpectedValueType = "Text", DreamFlowInlineEditable, DreamFlowInlinePriority = "40"))
+    FDreamFlowValueBinding FailureHintBinding;
+
+    UPROPERTY()
     FText ConditionLabel;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    UPROPERTY()
     bool bExpectedResult = true;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "40"))
+    UPROPERTY()
     FText FailureHint;
 
     virtual FText GetNodeDisplayName_Implementation() const override;
@@ -70,11 +92,18 @@ class DREAMFLOWEXPANSION_API UDreamFlowQuestCompleteNode : public UDreamFlowQues
 
 public:
     UDreamFlowQuestCompleteNode();
+    virtual void PostLoad() override;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowExpectedValueType = "Text", DreamFlowInlineEditable, DreamFlowInlinePriority = "20"))
+    FDreamFlowValueBinding CompletionLabelBinding;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowExpectedValueType = "Text", DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    FDreamFlowValueBinding RewardPreviewBinding;
+
+    UPROPERTY()
     FText CompletionLabel;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest", meta = (DreamFlowInlineEditable, DreamFlowInlinePriority = "30"))
+    UPROPERTY()
     FText RewardPreview;
 
     virtual FText GetNodeDisplayName_Implementation() const override;
