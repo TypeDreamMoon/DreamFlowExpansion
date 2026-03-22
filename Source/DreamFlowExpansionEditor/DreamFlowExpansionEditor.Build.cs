@@ -9,13 +9,20 @@ public class DreamFlowExpansionEditor : ModuleRules
         PrivateDependencyModuleNames.AddRange(
             new[]
             {
+                "AssetRegistry",
                 "AssetTools",
+                "ContentBrowser",
+                "ContentBrowserData",
                 "Core",
                 "CoreUObject",
+                "DesktopPlatform",
                 "DreamFlow",
                 "DreamFlowEditor",
                 "DreamFlowExpansion",
                 "Engine",
+                "Slate",
+                "SlateCore",
+                "ToolMenus",
                 "UnrealEd",
             });
     }

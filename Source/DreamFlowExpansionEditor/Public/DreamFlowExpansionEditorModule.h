@@ -14,6 +14,8 @@ public:
 private:
     void RegisterAssetTools();
     void UnregisterAssetTools();
+    void RegisterMenus();
+    void AddDreamFlowExpansionAddNewMenu(struct FToolMenuSection& Section);
 
 private:
     uint32 AssetCategory = 0;

@@ -8,6 +8,8 @@ It moves the previously bundled quest and dialogue flow families out of the core
 
 - `DreamFlowExpansion`: runtime module for expansion flow assets and node families
 - `DreamFlowExpansionEditor`: editor module that registers expansion asset types and factories
+- Content Browser import actions for Story/Dialogue CSV files
+- Content Browser example templates for Story/Dialogue flow assets
 - `UDreamQuestFlowAsset`
 - `UDreamDialogueFlowAsset`
 - `UDreamStoryFlowAsset`
@@ -84,7 +86,79 @@ This family is useful for combat, stealth, arena, survival, or boss-phase style 
 4. Add expansion nodes from the graph context menu, class picker, or palette.
 5. Use `Create Node Class` if you want a Blueprint implementation derived from one of the expansion node bases.
 
+The expansion editor also adds a Content Browser `Add New -> DreamFlow Expansion` submenu with:
+
+- `Import Dialogue Flow CSV...`
+- `Import Story Flow CSV...`
+- `Create Dialogue Example`
+- `Create Story Example`
+
 All expansion asset types reuse the same DreamFlow graph editor, debugger, validation panel, variables panel, and node details workflow.
+
+## CSV import
+
+The first CSV importer pass is intentionally simple and editor-driven:
+
+- CSV is imported into a real `Dream Dialogue Flow` or `Dream Story Flow` asset
+- Nodes and links are generated in the editor once
+- Imported assets still open in the normal DreamFlow editor and can be edited by hand afterwards
+
+### Dialogue CSV
+
+Expected columns:
+
+- `Id`
+- `Type`
+- `Speaker`
+- `Text`
+- `VoiceTag`
+- `Prompt`
+- `Choices`
+- `Targets`
+- `Next`
+- `Label`
+
+Supported `Type` values:
+
+- `Line`
+- `Choice`
+- `End`
+
+`Choices` and `Targets` use `|` as the separator.
+
+### Story CSV
+
+Expected columns:
+
+- `Id`
+- `Type`
+- `StoryArc`
+- `Label`
+- `Summary`
+- `Prompt`
+- `Labels`
+- `Targets`
+- `Next`
+- `Outcome`
+- `Critical`
+- `Major`
+
+Supported `Type` values:
+
+- `Beat`
+- `Branch`
+- `Ending`
+
+`Labels` and `Targets` use `|` as the separator.
+
+## Example templates
+
+The example creators generate ready-to-edit assets meant to show intended authoring patterns:
+
+- `Create Dialogue Example` builds a short authored conversation with a response branch
+- `Create Story Example` builds a beat -> branch -> ending structure with named branch outputs
+
+These assets are meant as starting points and reference material, not locked templates.
 
 ## Asset compatibility
 
